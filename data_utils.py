@@ -23,7 +23,7 @@ def prepare_dailydialog_data(tokenizer, max_len=30, limit = 1000):
         target_tokens = tokenizer.encode(target_text, max_length=max_len, truncation=True, padding='max_length')
         input_tokens_list.append(input_tokens)
         target_tokens_list.append(target_tokens)
-    t_tokens.npy', np.array(input_tokens_list[:int(0.8 * len(input_tokens_list))]))
+    np.save('test_input_tokens.npy', np.array(input_tokens_list[int(0.8 * len(input_tokens_list)):]))
     np.save('train_target_tokens.npy', np.array(target_tokens_list[:int(0.8 * len(target_tokens_list))]))
     np.save('test_input_tokens.npy', np.array(input_tokens_list[int(0.8 * len(input_tokens_list)):]))
     np.save('test_target_tokens.npy', np.array(target_tokens_list[int(0.8 * len(target_tokens_list)):]))
