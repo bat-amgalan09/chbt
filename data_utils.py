@@ -1,9 +1,8 @@
-
 import numpy as np
 from datasets import load_dataset
 from transformers import AutoTokenizer
 
-def prepare_dailydialog_data(tokenizer, max_len=30, limit = 1000):
+def prepare_dailydialog_data(tokenizer, max_len=30, limit=1000):
     dataset = load_dataset('daily_dialog', split='train')
     dialog_pairs = []
     for dialog in dataset['dialog']:
@@ -16,6 +15,7 @@ def prepare_dailydialog_data(tokenizer, max_len=30, limit = 1000):
                 break
         if len(dialog_pairs) >= limit:
             break
+
     input_tokens_list = []
     target_tokens_list = []
     for input_text, target_text in dialog_pairs:
@@ -23,7 +23,8 @@ def prepare_dailydialog_data(tokenizer, max_len=30, limit = 1000):
         target_tokens = tokenizer.encode(target_text, max_length=max_len, truncation=True, padding='max_length')
         input_tokens_list.append(input_tokens)
         target_tokens_list.append(target_tokens)
-    np.save('test_input_tokens.npy', np.array(input_tokens_list[int(0.8 * len(input_tokens_list)):]))
+
+    np.save('train_input_tokens.npy', np.array(input_tokens_list[:int(0.8 * len(input_tokens_list))]))
     np.save('train_target_tokens.npy', np.array(target_tokens_list[:int(0.8 * len(target_tokens_list))]))
     np.save('test_input_tokens.npy', np.array(input_tokens_list[int(0.8 * len(input_tokens_list)):]))
     np.save('test_target_tokens.npy', np.array(target_tokens_list[int(0.8 * len(target_tokens_list)):]))
